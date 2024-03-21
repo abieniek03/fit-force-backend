@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ClerkAuthorizationGuard } from './modules/authorization/clerk-authorization.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalGuards(new ClerkAuthorizationGuard());
 
   const config = new DocumentBuilder()
     .setTitle('FitForce API')
