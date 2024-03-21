@@ -12,3 +12,44 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model TrainingCamp {
+  id             String             @id @unique @default(uuid())
+  userId         String
+  createdAt      DateTime           @default(now())
+  title          String
+  startDate      DateTime
+  endDate        DateTime
+  weightProgress Weight[]
+  meansurement   BodyMeansurement[]
+
+  @@map("training-camps")
+}
+
+model Weight {
+  id             String        @id @unique @default(uuid())
+  userId         String
+  date           DateTime
+  weight         Float
+  TrainingCamp   TrainingCamp? @relation(fields: [trainingCampId], references: [id])
+  trainingCampId String?
+
+  @@map("weights")
+}
+
+model BodyMeansurement {
+  id             String        @id @unique @default(uuid())
+  userId         String
+  date           DateTime
+  chest          Float
+  waist          Float
+  belly          Float
+  arm            Float
+  hips           Float
+  thigh          Float
+  calf           Float
+  TrainingCamp   TrainingCamp? @relation(fields: [trainingCampId], references: [id])
+  trainingCampId String?
+
+  @@map("body-meansurements")
+}
