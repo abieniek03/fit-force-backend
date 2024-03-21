@@ -9,47 +9,49 @@ import {
   Param,
   Get,
 } from '@nestjs/common';
-import { MyProgressService } from './my-progress.service';
+import { TrainingCampService } from './training-camp.service';
 import {
   CreateTrainingCampDto,
   UpdateTrainingCampDto,
-} from './dto/my-progress.dto';
+} from './dto/training-camp.dto';
 import { TrainingCamp as TrainingCampModel } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('my-progress')
-export class MyProgressController {
-  constructor(private readonly myProgressService: MyProgressService) {}
+@ApiTags('Training camp')
+@Controller('training-camp')
+export class TrainingCampController {
+  constructor(private readonly trainingCampService: TrainingCampService) {}
 
-  @Post('training-camp')
+  @Post()
   async createTrainingCamp(
     @Headers('user-id') userId: string,
     @Body() dto: CreateTrainingCampDto,
   ): Promise<TrainingCampModel> {
-    return await this.myProgressService.createTrainingCamp(userId, dto);
+    return await this.trainingCampService.createTrainingCamp(userId, dto);
   }
 
-  @Patch('training-camp')
+  @Patch()
   async uppdateTrainingCamp(
     @Headers('user-id') userId: string,
     @Body() dto: UpdateTrainingCampDto,
   ): Promise<TrainingCampModel> {
-    return await this.myProgressService.updateTrainingCamp(userId, dto);
+    return await this.trainingCampService.updateTrainingCamp(userId, dto);
   }
 
-  @Get('training-camp/:id')
+  @Get(':id')
   async getTrainingCamp(
     @Headers('user-id') userId: string,
     @Param('id') id: string,
   ): Promise<TrainingCampModel> {
-    return await this.myProgressService.getTrainingCamp(userId, id);
+    return await this.trainingCampService.getTrainingCamp(userId, id);
   }
 
-  @Delete('training-camp/:id')
+  @Delete(':id')
   @HttpCode(204)
   async deleteTrainingCamp(
     @Headers('user-id') userId: string,
     @Param('id') id: string,
   ): Promise<void> {
-    await this.myProgressService.deleteTrainingCamp(userId, id);
+    await this.trainingCampService.deleteTrainingCamp(userId, id);
   }
 }

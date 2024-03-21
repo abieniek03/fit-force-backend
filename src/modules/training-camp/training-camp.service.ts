@@ -7,11 +7,11 @@ import { PrismaService } from 'prisma/prisma.service';
 import {
   CreateTrainingCampDto,
   UpdateTrainingCampDto,
-} from './dto/my-progress.dto';
+} from './dto/training-camp.dto';
 import { TrainingCamp } from '@prisma/client';
 
 @Injectable()
-export class MyProgressService {
+export class TrainingCampService {
   constructor(private prisma: PrismaService) {}
 
   private async trainingCampValidate(userId: string, id: string) {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
-import { MyProgressModule } from './modules/my-progress/my-progress.module';
+import { MyProgressModule } from './modules/training-camp/training-camp.module';
 
 @Module({
   imports: [AuthorizationModule, MyProgressModule],
