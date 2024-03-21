@@ -5,4 +5,4 @@ import { ClerkAuthorizationGuard } from './clerk-authorization.guard';
   providers: [ClerkAuthorizationGuard],
   exports: [ClerkAuthorizationGuard],
 })
-export class AuthModule {}
+export class AuthorizationModule {}
