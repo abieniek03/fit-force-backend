@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
-import { MyProgressModule } from './modules/training-camp/training-camp.module';
+import { TrainingCampModule } from './modules/training-camp/training-camp.module';
 
 @Module({
-  imports: [AuthorizationModule, MyProgressModule],
+  imports: [AuthorizationModule, TrainingCampModule],
 })
 export class AppModule {}

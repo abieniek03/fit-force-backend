@@ -20,6 +20,9 @@ export class TransformResponseInterceptor implements NestInterceptor {
             data: [],
           };
         }
+
+        response.userId && (response.userId = undefined);
+
         return { data: response };
       }),
     );
