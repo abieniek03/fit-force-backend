@@ -4,8 +4,10 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateTrainingCampDto {
   @ApiProperty()
   title: string;
+
   @ApiProperty()
   startDate: Date;
+
   @ApiProperty()
   endDate: Date;
 }

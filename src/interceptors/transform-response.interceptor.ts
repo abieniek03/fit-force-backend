@@ -21,6 +21,10 @@ export class TransformResponseInterceptor implements NestInterceptor {
           };
         }
 
+        if (Array.isArray(response)) {
+          response.forEach((el) => el.userId && (el.userId = undefined));
+        }
+
         response.userId && (response.userId = undefined);
 
         return { data: response };

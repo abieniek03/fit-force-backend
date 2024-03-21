@@ -31,7 +31,7 @@ export class TrainingCampController {
   }
 
   @Patch()
-  async uppdateTrainingCamp(
+  async updateTrainingCamp(
     @Headers('user-id') userId: string,
     @Body() dto: UpdateTrainingCampDto,
   ): Promise<TrainingCampModel> {
