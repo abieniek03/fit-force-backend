@@ -29,9 +29,9 @@ model TrainingCamp {
 model Weight {
   id           String        @id @unique @default(uuid())
   userId       String
-  campId       String?
   date         DateTime
   weight       Float
+  campId       String?
   TrainingCamp TrainingCamp? @relation(fields: [campId], references: [id])
 
   @@map("weights")
@@ -40,7 +40,6 @@ model Weight {
 model BodyMeansurement {
   id           String        @id @unique @default(uuid())
   userId       String
-  campId       String?
   date         DateTime
   chest        Float
   waist        Float
@@ -49,6 +48,7 @@ model BodyMeansurement {
   hips         Float
   thigh        Float
   calf         Float
+  campId       String?
   TrainingCamp TrainingCamp? @relation(fields: [campId], references: [id])
 
   @@map("body-meansurements")

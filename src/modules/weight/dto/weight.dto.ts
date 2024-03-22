@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class AddWeightDto {
   @ApiProperty()
-  trainingCampId: string;
+  campId: string;
 
   @ApiProperty()
   weight: number;

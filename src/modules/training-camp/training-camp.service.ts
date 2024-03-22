@@ -48,15 +48,18 @@ export class TrainingCampService {
     });
   }
 
-  public async getTrainingCamp(userId: string, id: string) {
+  public async getTrainingCamp(
+    userId: string,
+    id: string,
+  ): Promise<TrainingCamp> {
     await this.trainingCampValidate(userId, id);
 
     return await this.prisma.trainingCamp.findFirst({ where: { id } });
   }
 
-  public async deleteTrainingCamp(userId: string, id: string) {
+  public async deleteTrainingCamp(userId: string, id: string): Promise<void> {
     await this.trainingCampValidate(userId, id);
 
-    return await this.prisma.trainingCamp.delete({ where: { id } });
+    await this.prisma.trainingCamp.delete({ where: { id } });
   }
 }
