@@ -35,9 +35,9 @@ export class TrainingCampService {
 
   public async updateTrainingCamp(
     userId: string,
+    id: string,
     dto: UpdateTrainingCampDto,
   ): Promise<TrainingCamp> {
-    const { id } = dto;
     await this.trainingCampValidate(userId, id);
 
     return this.prisma.trainingCamp.update({

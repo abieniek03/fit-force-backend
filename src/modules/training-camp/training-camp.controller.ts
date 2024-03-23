@@ -30,12 +30,13 @@ export class TrainingCampController {
     return await this.trainingCampService.createTrainingCamp(userId, dto);
   }
 
-  @Patch()
+  @Patch(':id')
   async updateTrainingCamp(
     @Headers('user-id') userId: string,
+    @Param('id') id: string,
     @Body() dto: UpdateTrainingCampDto,
   ): Promise<TrainingCampModel> {
-    return await this.trainingCampService.updateTrainingCamp(userId, dto);
+    return await this.trainingCampService.updateTrainingCamp(userId, id, dto);
   }
 
   @Get(':id')

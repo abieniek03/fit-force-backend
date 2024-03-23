@@ -12,6 +12,4 @@ export class CreateTrainingCampDto {
   endDate: Date;
 }
 
-export class UpdateTrainingCampDto extends PartialType(CreateTrainingCampDto) {
-  id: string;
-}
+export class UpdateTrainingCampDto extends PartialType(CreateTrainingCampDto) {}
