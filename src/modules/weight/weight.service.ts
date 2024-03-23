@@ -1,14 +1,38 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { Weight } from '@prisma/client';
-import { AddWeightDto } from './dto/weight.dto';
+import { AddWeightDto, UpdateWeightDto } from './dto/weight.dto';
 
 @Injectable()
 export class WeightService {
   constructor(private prisma: PrismaService) {}
 
+  private async validateWeight(userId: string, id: string) {
+    const element = await this.prisma.weight.findFirst({ where: { id } });
+
+    if (!element) throw new NotFoundException();
+    if (element.userId !== userId) throw new UnauthorizedException();
+  }
+
   public async addWeight(userId: string, dto: AddWeightDto): Promise<Weight> {
     return await this.prisma.weight.create({ data: { userId, ...dto } });
+  }
+
+  public async updateWeight(
+    userId: string,
+    id: string,
+    dto: UpdateWeightDto,
+  ): Promise<Weight> {
+    await this.validateWeight(userId, id);
+
+    return await this.prisma.weight.update({
+      where: { id },
+      data: dto,
+    });
   }
 
   public async allFromCamp(
@@ -22,10 +46,7 @@ export class WeightService {
     });
 
     const unauthorizedData = data.filter((el) => el.userId !== userId);
-
-    if (unauthorizedData.length) {
-      throw new UnauthorizedException();
-    }
+    if (unauthorizedData.length) throw new UnauthorizedException();
 
     return data;
   }
@@ -38,12 +59,7 @@ export class WeightService {
   }
 
   public async deleteWeight(userId: string, id: string): Promise<void> {
-    const element = await this.prisma.weight.findFirst({ where: { id } });
-
-    if (element.userId !== userId) {
-      throw new UnauthorizedException();
-    }
-
+    await this.validateWeight(userId, id);
     await this.prisma.weight.delete({ where: { id } });
   }
 }

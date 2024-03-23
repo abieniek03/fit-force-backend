@@ -8,9 +8,10 @@ import {
   Query,
   Delete,
   HttpCode,
+  Patch,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AddWeightDto } from './dto/weight.dto';
+import { AddWeightDto, UpdateWeightDto } from './dto/weight.dto';
 import { WeightService } from './weight.service';
 import { Weight as WeightModel } from '@prisma/client';
 
@@ -25,6 +26,15 @@ export class WeightController {
     @Body() dto: AddWeightDto,
   ): Promise<WeightModel> {
     return await this.weightService.addWeight(userId, dto);
+  }
+
+  @Patch(':id')
+  async updateWeight(
+    @Headers('user-id') userId: string,
+    @Param('id') id: string,
+    @Body() dto: UpdateWeightDto,
+  ): Promise<WeightModel> {
+    return await this.weightService.updateWeight(userId, id, dto);
   }
 
   @Get('camp-id=:id')

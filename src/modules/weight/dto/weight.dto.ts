@@ -1,3 +1,4 @@
+import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AddWeightDto {
@@ -10,3 +11,5 @@ export class AddWeightDto {
   @ApiProperty()
   date: Date;
 }
+
+export class UpdateWeightDto extends PartialType(AddWeightDto) {}

@@ -59,7 +59,6 @@ export class TrainingCampService {
 
   public async deleteTrainingCamp(userId: string, id: string): Promise<void> {
     await this.trainingCampValidate(userId, id);
-
     await this.prisma.trainingCamp.delete({ where: { id } });
   }
 }

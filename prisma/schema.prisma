@@ -17,6 +17,7 @@ model TrainingCamp {
   id             String             @id @unique @default(uuid())
   userId         String
   createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @default(now()) @updatedAt()
   title          String
   startDate      DateTime
   endDate        DateTime
@@ -29,6 +30,8 @@ model TrainingCamp {
 model Weight {
   id           String        @id @unique @default(uuid())
   userId       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt()
   date         DateTime
   weight       Float
   campId       String?
@@ -40,6 +43,8 @@ model Weight {
 model BodyMeansurement {
   id           String        @id @unique @default(uuid())
   userId       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt()
   date         DateTime
   chest        Float
   waist        Float
