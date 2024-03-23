@@ -39,6 +39,13 @@ export class TrainingCampController {
     return await this.trainingCampService.updateTrainingCamp(userId, id, dto);
   }
 
+  @Get()
+  async getAllTrainingCamps(
+    @Headers('user-id') userId: string,
+  ): Promise<TrainingCampModel[]> {
+    return await this.trainingCampService.getAllTrainingCamps(userId);
+  }
+
   @Get(':id')
   async getTrainingCamp(
     @Headers('user-id') userId: string,

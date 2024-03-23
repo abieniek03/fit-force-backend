@@ -48,6 +48,10 @@ export class TrainingCampService {
     });
   }
 
+  public async getAllTrainingCamps(userId: string): Promise<TrainingCamp[]> {
+    return await this.prisma.trainingCamp.findMany({ where: { userId } });
+  }
+
   public async getTrainingCamp(
     userId: string,
     id: string,
