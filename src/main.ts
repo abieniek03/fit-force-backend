@@ -6,6 +6,8 @@ import { TransformResponseInterceptor } from './interceptors/transform-response.
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
+
   app.useGlobalGuards(new ClerkAuthorizationGuard());
   app.useGlobalInterceptors(new TransformResponseInterceptor());
 
