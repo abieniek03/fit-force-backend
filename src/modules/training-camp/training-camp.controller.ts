@@ -8,6 +8,7 @@ import {
   HttpCode,
   Param,
   Get,
+  Query,
 } from '@nestjs/common';
 import { TrainingCampService } from './training-camp.service';
 import {
@@ -40,9 +41,13 @@ export class TrainingCampController {
   }
 
   @Get()
-  async getAllTrainingCamps(
+  async getTrainingCamps(
     @Headers('user-id') userId: string,
-  ): Promise<TrainingCampModel[]> {
+    @Query('latest') latest?: string,
+  ): Promise<TrainingCampModel | TrainingCampModel[]> {
+    if (latest)
+      return await this.trainingCampService.getLatestTrainingCamp(userId);
+
     return await this.trainingCampService.getAllTrainingCamps(userId);
   }
 
@@ -51,7 +56,7 @@ export class TrainingCampController {
     @Headers('user-id') userId: string,
     @Param('id') id: string,
   ): Promise<TrainingCampModel> {
-    return await this.trainingCampService.getTrainingCamp(userId, id);
+    return await this.trainingCampService.getTrainingCampById(userId, id);
   }
 
   @Delete(':id')

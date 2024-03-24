@@ -52,13 +52,20 @@ export class TrainingCampService {
     return await this.prisma.trainingCamp.findMany({ where: { userId } });
   }
 
-  public async getTrainingCamp(
+  public async getTrainingCampById(
     userId: string,
     id: string,
   ): Promise<TrainingCamp> {
     await this.trainingCampValidate(userId, id);
 
     return await this.prisma.trainingCamp.findFirst({ where: { id } });
+  }
+
+  public async getLatestTrainingCamp(userId: string): Promise<TrainingCamp> {
+    return await this.prisma.trainingCamp.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
   public async deleteTrainingCamp(userId: string, id: string): Promise<void> {
