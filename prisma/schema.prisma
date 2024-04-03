@@ -12,3 +12,66 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum SEX {
+  male
+  female
+}
+
+model MyParameters {
+  id        String   @id @unique @default(uuid())
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt()
+  sex       SEX
+  birthDate DateTime
+  height    Int
+
+  @@map("my-parameters")
+}
+
+model TrainingCamp {
+  id             String             @id @unique @default(uuid())
+  userId         String
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @default(now()) @updatedAt()
+  title          String
+  startDate      DateTime
+  endDate        DateTime
+  weightProgress Weight[]
+  meansurement   BodyMeansurement[]
+
+  @@map("training-camps")
+}
+
+model Weight {
+  id           String        @id @unique @default(uuid())
+  userId       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt()
+  date         DateTime
+  weight       Float
+  campId       String?
+  TrainingCamp TrainingCamp? @relation(fields: [campId], references: [id])
+
+  @@map("weights")
+}
+
+model BodyMeansurement {
+  id           String        @id @unique @default(uuid())
+  userId       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt()
+  date         DateTime
+  chest        Float
+  waist        Float
+  belly        Float
+  arm          Float
+  hips         Float
+  thigh        Float
+  calf         Float
+  campId       String?
+  TrainingCamp TrainingCamp? @relation(fields: [campId], references: [id])
+
+  @@map("body-meansurements")
+}
