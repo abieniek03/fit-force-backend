@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -19,6 +20,19 @@ export class TrainingCampService {
 
     if (!element) throw new NotFoundException();
     if (element.userId !== userId) throw new UnauthorizedException();
+  }
+
+  public async validateCampDate(campId: string, date: Date) {
+    const { startDate, endDate } = await this.prisma.trainingCamp.findFirst({
+      where: { id: campId },
+    });
+
+    if (
+      new Date(startDate) > new Date(date) ||
+      new Date(endDate) < new Date(date)
+    ) {
+      throw new ConflictException('Request date is not on schedule.');
+    }
   }
 
   public async createTrainingCamp(

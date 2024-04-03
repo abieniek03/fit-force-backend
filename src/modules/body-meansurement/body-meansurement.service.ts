@@ -9,10 +9,14 @@ import {
   CreateBodyMeansutementDto,
   UpdateBodyMeansurementDto,
 } from './dto/body-meansurement.dto';
+import { TrainingCampService } from '../training-camp/training-camp.service';
 
 @Injectable()
 export class BodyMeansurementService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private validation: TrainingCampService,
+  ) {}
 
   private async validateBodyMeansurement(userId: string, id: string) {
     const element = await this.prisma.bodyMeansurement.findFirst({
@@ -27,6 +31,8 @@ export class BodyMeansurementService {
     userId: string,
     dto: CreateBodyMeansutementDto,
   ): Promise<BodyMeansurement> {
+    await this.validation.validateCampDate(dto.campId, dto.date);
+
     return await this.prisma.bodyMeansurement.create({
       data: {
         userId,
@@ -41,6 +47,7 @@ export class BodyMeansurementService {
     dto: UpdateBodyMeansurementDto,
   ): Promise<BodyMeansurement> {
     await this.validateBodyMeansurement(userId, id);
+    await this.validation.validateCampDate(dto.campId, dto.date);
 
     return await this.prisma.bodyMeansurement.update({
       where: { id },

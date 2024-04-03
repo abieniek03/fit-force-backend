@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -6,10 +7,14 @@ import {
 import { PrismaService } from 'prisma/prisma.service';
 import { Weight } from '@prisma/client';
 import { AddWeightDto, UpdateWeightDto } from './dto/weight.dto';
+import { TrainingCampService } from '../training-camp/training-camp.service';
 
 @Injectable()
 export class WeightService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private validation: TrainingCampService,
+  ) {}
 
   private async validateWeight(userId: string, id: string) {
     const element = await this.prisma.weight.findFirst({ where: { id } });
@@ -19,6 +24,17 @@ export class WeightService {
   }
 
   public async addWeight(userId: string, dto: AddWeightDto): Promise<Weight> {
+    const isExist = await this.prisma.weight.findFirst({
+      where: { date: dto.date },
+    });
+
+    if (isExist)
+      throw new ConflictException(
+        'Weight with this date already exist - if you want change, run patch request.',
+      );
+
+    await this.validation.validateCampDate(dto.campId, dto.date);
+
     return await this.prisma.weight.create({ data: { userId, ...dto } });
   }
 
@@ -28,6 +44,7 @@ export class WeightService {
     dto: UpdateWeightDto,
   ): Promise<Weight> {
     await this.validateWeight(userId, id);
+    await this.validation.validateCampDate(dto.campId, dto.date);
 
     return await this.prisma.weight.update({
       where: { id },
