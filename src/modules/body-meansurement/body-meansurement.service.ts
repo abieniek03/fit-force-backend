@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -31,6 +32,15 @@ export class BodyMeansurementService {
     userId: string,
     dto: CreateBodyMeansutementDto,
   ): Promise<BodyMeansurement> {
+    const isExist = await this.prisma.weight.findFirst({
+      where: { date: dto.date },
+    });
+
+    if (isExist)
+      throw new ConflictException(
+        'Data with this date already exist - if you want change, run patch request.',
+      );
+
     await this.validation.validateCampDate(dto.campId, dto.date);
 
     return await this.prisma.bodyMeansurement.create({
