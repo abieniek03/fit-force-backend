@@ -9,7 +9,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { MyParametersService } from './my-parameters.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MyParameters as MyParametersModel } from '@prisma/client';
 import { CreateMyParametersDto } from './dto/my-parameters.dto';
 import { UpdateBodyMeansurementDto } from '../body-meansurement/dto/body-meansurement.dto';
@@ -20,6 +20,7 @@ export class MyParametersController {
   constructor(private readonly myParametersService: MyParametersService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create user parameters' })
   async createParameters(
     @Headers('user-id') userId: string,
     @Body() dto: CreateMyParametersDto,
@@ -28,6 +29,7 @@ export class MyParametersController {
   }
 
   @Patch()
+  @ApiOperation({ summary: 'Update user parameters' })
   async updateParameters(
     @Headers('user-id') userId: string,
     @Body() dto: UpdateBodyMeansurementDto,
@@ -36,6 +38,7 @@ export class MyParametersController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get user parameters' })
   async getUserParameters(
     @Headers('user-id') userId: string,
   ): Promise<MyParametersModel> {
@@ -43,6 +46,7 @@ export class MyParametersController {
   }
 
   @Delete()
+  @ApiOperation({ summary: 'Delete user parameters' })
   @HttpCode(204)
   async deleteUserParameters(
     @Headers('user-id') userId: string,
