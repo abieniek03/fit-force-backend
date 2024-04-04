@@ -16,7 +16,7 @@ import {
   UpdateTrainingCampDto,
 } from './dto/training-camp.dto';
 import { TrainingCamp as TrainingCampModel } from '@prisma/client';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Training camp')
 @Controller('training-camp')
@@ -24,6 +24,7 @@ export class TrainingCampController {
   constructor(private readonly trainingCampService: TrainingCampService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create new' })
   async createTrainingCamp(
     @Headers('user-id') userId: string,
     @Body() dto: CreateTrainingCampDto,
@@ -32,6 +33,7 @@ export class TrainingCampController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update' })
   async updateTrainingCamp(
     @Headers('user-id') userId: string,
     @Param('id') id: string,
@@ -41,6 +43,7 @@ export class TrainingCampController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all or latest' })
   async getTrainingCamps(
     @Headers('user-id') userId: string,
     @Query('latest') latest?: string,
@@ -52,6 +55,7 @@ export class TrainingCampController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get by id' })
   async getTrainingCamp(
     @Headers('user-id') userId: string,
     @Param('id') id: string,
@@ -60,6 +64,7 @@ export class TrainingCampController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete by id' })
   @HttpCode(204)
   async deleteTrainingCamp(
     @Headers('user-id') userId: string,
