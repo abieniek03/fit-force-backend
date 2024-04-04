@@ -10,7 +10,7 @@ import {
   HttpCode,
 } from '@nestjs/common';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BodyMeansurementService } from './body-meansurement.service';
 import { BodyMeansurement as BodyMeansurementModel } from '@prisma/client';
 import {
@@ -26,6 +26,7 @@ export class BodyMeansurementController {
   ) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create new' })
   async create(
     @Headers('user-id') userId: string,
     @Body() dto: CreateBodyMeansutementDto,
@@ -34,6 +35,7 @@ export class BodyMeansurementController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update' })
   async update(
     @Headers('user-id') userId: string,
     @Param('id') id: string,
@@ -47,6 +49,7 @@ export class BodyMeansurementController {
   }
 
   @Get('camp-id=:id')
+  @ApiOperation({ summary: 'Get by id' })
   async getAll(
     @Headers('user-id') userId: string,
     @Param('id') id: string,
@@ -55,6 +58,7 @@ export class BodyMeansurementController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete by id' })
   @HttpCode(204)
   async delete(
     @Headers('user-id') userId: string,
