@@ -56,10 +56,12 @@ export class WeightService {
     userId: string,
     campId: string,
     sort?: string,
+    limit?: string,
   ): Promise<Weight[]> {
     const data = await this.prisma.weight.findMany({
       where: { campId },
       orderBy: { date: sort ? 'desc' : 'asc' },
+      take: parseInt(limit) || undefined,
     });
 
     const unauthorizedData = data.filter((el) => el.userId !== userId);

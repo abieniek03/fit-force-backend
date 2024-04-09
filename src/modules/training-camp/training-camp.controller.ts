@@ -48,7 +48,7 @@ export class TrainingCampController {
     @Headers('user-id') userId: string,
     @Query('latest') latest?: string,
   ): Promise<TrainingCampModel | TrainingCampModel[]> {
-    if (latest)
+    if (latest === 'true')
       return await this.trainingCampService.getLatestTrainingCamp(userId);
 
     return await this.trainingCampService.getAllTrainingCamps(userId);
