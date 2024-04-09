@@ -45,8 +45,9 @@ export class WeightController {
     @Headers('user-id') userId: string,
     @Param('id') campId: string,
     @Query('sort') sort?: string,
+    @Query('limit') limit?: string,
   ): Promise<WeightModel[]> {
-    return await this.weightService.allFromCamp(userId, campId, sort);
+    return await this.weightService.allFromCamp(userId, campId, sort, limit);
   }
 
   @Get('bmi')
