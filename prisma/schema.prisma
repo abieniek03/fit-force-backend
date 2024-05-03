@@ -75,3 +75,14 @@ model BodyMeansurement {
 
   @@map("body-meansurements")
 }
+
+model UserProfile {
+  id        String   @id @unique @default(uuid())
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt()
+  birthDate DateTime
+  height    Int
+
+  @@map("user-profile")
+}
